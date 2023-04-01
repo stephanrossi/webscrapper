@@ -13,14 +13,36 @@ class ReceitaTest extends DuskTestCase
      */
     public function testExample(): void
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/')
-                ->pause(500)
+
+        $websites = [
+            'govbr' => 'https://sso.acesso.gov.br/',
+            'ecac' => 'https://cav.receita.fazenda.gov.br/autenticacao/login'
+        ];
+
+        $this->browse(function (Browser $browser) use ($websites) {
+            $browser->visit($websites['govbr'])
+                ->pause(1500)
+                ->waitFor('#accountId')
+                ->typeSlowly('#accountId', '05976325610')
+                ->clickAndWaitForReload('#login-button-panel > button')
+                ->typeSlowly('#password', 'Lndlmps1034@')
+                ->pause(150)
+                ->click('#submit-button')
+                ->waitFor('#login-password')
+                ->pause(500);
+            $sitekey = $browser->attribute('#login-password > div.button-panel > div', 'data-sitekey');
+            echo "sitekey: " . $sitekey;
+
+            die;
+            $browser->visit($websites['ecac'])
+                ->pause(1500)
+                ->waitFor('#login-dados-certificado')
                 ->clickAndWaitForReload('#login-dados-certificado > p:nth-child(2) > input[type=image]')
                 ->waitFor('#accountId')
-                ->value('#accountId', '05976325610')
+                ->typeSlowly('#accountId', '05976325610')
                 ->clickAndWaitForReload('#login-button-panel > button')
-                ->value('#password', 'Lndlmps1034@')
+                ->typeSlowly('#password', 'Lndlmps1034@')
+                ->pause(150)
                 ->click('#submit-button')
                 ->pause(10000);
         });
