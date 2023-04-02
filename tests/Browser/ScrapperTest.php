@@ -15,7 +15,8 @@ class ScrapperTest extends DuskTestCase
     {
         $websites = [
             'govbr' => 'https://sso.acesso.gov.br/login',
-            'ecac' => 'https://cav.receita.fazenda.gov.br/ecac'
+            'ecac' => 'https://cav.receita.fazenda.gov.br/ecac',
+            'ecacProc' => 'https://cav.receita.fazenda.gov.br/Servicos/ATSDR/Procuracoes.app/telaprincipal.asp'
         ];
 
         $this->browse(function (Browser $browser) use ($websites) {
@@ -29,6 +30,20 @@ class ScrapperTest extends DuskTestCase
                 ->pause(1000)
                 ->waitFor('#login-dados-certificado')
                 ->clickAndWaitForReload('#login-dados-certificado > p:nth-child(2) > input[type=image]')
+                ->pause(1000)
+                ->click('#btn302 > a')
+                ->pause(1000)
+                ->waitFor('#containerServicos302')
+                ->click('#containerServicos302 > div > ul > li > a')
+                ->pause(627);
+
+            $browser->visit($websites['ecacProc'])
+                ->click('#consultaProcurador')
+                ->pause(500)
+                ->waitFor('#radioSituacaoProcuracaoAtivas')
+                ->click('#radioSituacaoProcuracaoAtivas')
+                ->pause(500)
+                ->click('#botProcurador')
                 ->pause(10000);
         });
     }
