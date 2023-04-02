@@ -29,22 +29,22 @@ class ScrapperTest extends DuskTestCase
             $browser->visit($websites['ecac'])
                 ->pause(1000)
                 ->waitFor('#login-dados-certificado')
-                ->clickAndWaitForReload('#login-dados-certificado > p:nth-child(2) > input[type=image]')
-                ->pause(1000)
-                ->click('#btn302 > a')
-                ->pause(1000)
-                ->waitFor('#containerServicos302')
-                ->click('#containerServicos302 > div > ul > li > a')
-                ->pause(627);
+                ->clickAndWaitForReload('#login-dados-certificado > p:nth-child(2) > input[type=image]');
+            // ->pause(1000)
+            // ->click('#btn302 > a')
+            // ->pause(1000)
+            // ->waitFor('#containerServicos302')
+            // ->click('#containerServicos302 > div > ul > li > a')
+            // ->pause(627);
 
             $browser->visit($websites['ecacProc'])
                 ->click('#consultaProcurador')
                 ->pause(500)
                 ->waitFor('#radioSituacaoProcuracaoAtivas')
-                ->click('#radioSituacaoProcuracaoAtivas')
-                ->pause(500)
-                ->click('#botProcurador')
-                ->pause(10000);
+                ->click('#botProcurador');
+            $cnpj = $browser->value('#FormConsulta > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > font');
+            echo $cnpj;
+            $browser->pause(10000);
         });
     }
 }
